@@ -1,4 +1,4 @@
-package com.dam.algasensors.device.management;
+package com.dam.algasensors.device.management.common;
 
 import io.hypersistence.tsid.TSID;
 
