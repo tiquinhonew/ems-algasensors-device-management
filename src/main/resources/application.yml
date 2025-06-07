@@ -16,3 +16,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: 'true'
+
+logging:
+  level:
+    org:
+      hibernate:
+        orm:
+          connections:
+            pooling: warn
