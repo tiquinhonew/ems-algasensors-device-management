@@ -4,10 +4,10 @@ import com.dam.algasensors.device.management.api.client.RestClientFactory;
 import com.dam.algasensors.device.management.api.client.SensorMonitoringClient;
 import com.dam.algasensors.device.management.api.model.SensorMonitoringOutPut;
 import io.hypersistence.tsid.TSID;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-@Component
+//@Component
+// Comentado para evitar que o spring tente injetar o bean automaticamente, ´já que estamos usando o HttpServiceProxyFactory para criar o cliente e as anotações @HttpExchange na interface.
 public class SensorMonitoringClientImpl implements SensorMonitoringClient {
 
     private final RestClient restClient;
