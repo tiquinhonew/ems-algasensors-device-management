@@ -1,7 +1,9 @@
 package com.dam.algasensors.device.management.api.controller;
 
 import com.dam.algasensors.device.management.api.client.SensorMonitoringClient;
+import com.dam.algasensors.device.management.api.model.SensorDetailOutPut;
 import com.dam.algasensors.device.management.api.model.SensorInput;
+import com.dam.algasensors.device.management.api.model.SensorMonitoringOutPut;
 import com.dam.algasensors.device.management.api.model.SensorOutput;
 import com.dam.algasensors.device.management.common.IdGenerator;
 import com.dam.algasensors.device.management.domain.model.Sensor;
@@ -9,6 +11,7 @@ import com.dam.algasensors.device.management.domain.model.SensorId;
 import com.dam.algasensors.device.management.domain.repository.SensorRepository;
 import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -45,6 +48,22 @@ public class SensorController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         return convertToModel(sensor);
+    }
+
+    @GetMapping("{sensorId}/detail")
+    @ResponseStatus(HttpStatus.OK)
+    public SensorDetailOutPut getOneWithDetail(@PathVariable TSID sensorId) {
+        Sensor sensor = sensorRepository.findById(new SensorId(sensorId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        SensorMonitoringOutPut monitoringOutPut = sensorMonitoringClient.getDetail(sensorId);
+        SensorOutput sensorOutput = convertToModel(sensor);
+
+        return SensorDetailOutPut.builder()
+                .monitoring(monitoringOutPut)
+                .sensor(sensorOutput)
+                .build();
+
     }
 
     @PostMapping
